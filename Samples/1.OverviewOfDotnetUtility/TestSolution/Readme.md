@@ -7,7 +7,7 @@
    # dotnet new sln -o <Path of the solution file>
  
   #Example
-   dotnet new sln
+   dotnet new sln -o .\TestSolution.sln
 ```
 > 2. How to create Console Project file
 ```sh
@@ -56,6 +56,7 @@
         cd  .\Console.Client
         dotnet add  package Microsoft.Extensions.Configuration.Json  
         dotnet add package Microsoft.Extensions.Configuration.Binder
+        dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 ```
 > 6. Build Project\Solution using dotnet cli
 

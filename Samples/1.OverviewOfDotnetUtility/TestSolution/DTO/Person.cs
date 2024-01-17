@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿using DTO.Interfaces;
+/// <summary>
 /// Represents a person.
 /// </summary>
 namespace DTO
@@ -6,7 +7,7 @@ namespace DTO
     /// <summary>
     /// Represents a person.
     /// </summary>
-    public class Person
+    public class Person:IPerson
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
