@@ -7,7 +7,7 @@
    # dotnet new sln -o <Path of the solution file>
  
   #Example
-   dotnet new sln -o .\TestSolution.sln
+   dotnet new sln 
 ```
 > 2. How to create Console Project file
 ```sh

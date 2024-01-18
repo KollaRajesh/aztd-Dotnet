@@ -34,7 +34,8 @@ public static class DisplayExtension
             }
             else 
             {
-                Console.WriteLine($"value: {obj}");
+                //Console.WriteLine($"value: {obj}");
+                Console.WriteLine($" {obj}");
             }
             return;
         }
