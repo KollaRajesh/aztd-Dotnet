@@ -8,11 +8,12 @@ using Microsoft.Extensions.Configuration.Json;
 
 //read environment variable from machine level scope
 //var EnvironmentName= Environment.GetEnvironmentVariable("Environment", EnvironmentVariableTarget.Machine);  
+//var EnvironmentName= Environment.GetEnvironmentVariable("Environment")
 
 //read environment variable from User level scope
 //var EnvironmentName= Environment.GetEnvironmentVariable("Environment", EnvironmentVariableTarget.User);
 
-//Environment.GetEnvironmentVariable("Environment")
+
 
 var EnvironmentName = Environment.GetEnvironmentVariable("Environment", EnvironmentVariableTarget.User)??string.Empty;
 var builder = new ConfigurationBuilder()
