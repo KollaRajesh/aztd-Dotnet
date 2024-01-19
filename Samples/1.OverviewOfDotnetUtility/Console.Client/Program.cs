@@ -34,5 +34,4 @@ connectionString.Display(()=>connectionString);
 var logLevelDefault = configuration.GetValue<string>("Logging:LogLevel:Default");
 logLevelDefault.Display(()=>logLevelDefault);
 
-Console.ReadKey();
 static bool IsDevelopment(string environmentName) => environmentName == "Development"; 

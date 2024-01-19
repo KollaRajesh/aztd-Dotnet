@@ -18,6 +18,8 @@
       dotnet new console -o Console.Client
       dotnet new classlib -o DTO
       dotnet new classlib -o DTO.Interfaces
+      dotnet new classlib -o Extensions
+      dotnet new web -o Web.Client
  ```  
 >   2.1 How to create new file in project directory
 
@@ -30,9 +32,11 @@
 ```sh  
   #Syntax: dotnet sln <path-to-solution-file> add <path-to-project-file> 
     cd ..
-    dotnet sln .\TestSolution.sln add .\Console.Client\Console.Client.csproj
-     dotnet sln .\TestSolution.sln add .\DTO\DTO.csproj 
-      dotnet sln .\TestSolution.sln add .\DTO.Interfaces\DTO.Interfaces.csproj
+    dotnet sln .\1.OverviewOfDotnetUtility.sln add .\Console.Client\Console.Client.csproj
+    dotnet sln .\1.OverviewOfDotnetUtility.sln add .\DTO\DTO.csproj 
+    dotnet sln .\1.OverviewOfDotnetUtility.sln add .\DTO.Interfaces\DTO.Interfaces.csproj
+    dotnet sln .\1.OverviewOfDotnetUtility.sln add .\Extensions\Extensions.csproj
+    dotnet sln .\1.OverviewOfDotnetUtility.sln add .\Web.Client\Web.Client.csproj
 ```
 > 4. How to add project reference
 
@@ -44,6 +48,12 @@
        dotnet add .\DTO\DTO.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
        dotnet add .\Console.Client\Console.Client.csproj  reference .\DTO\DTO.csproj
        dotnet add .\Console.Client\Console.Client.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
+        dotnet add .\Console.Client\Console.Client.csproj  reference .\Extensions\Extensions.csproj
+
+       dotnet add .\Web.Client\Web.Client.csproj  reference .\DTO\DTO.csproj
+       dotnet add .\Web.Client\Web.Client.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
+        dotnet add .\Web.Client\Web.Client.csproj  reference .\Extensions\Extensions.csproj
+
 ```
  > 5. How to add package reference 
  
@@ -69,7 +79,7 @@
 
 #Example: (build solution) 
 
- dotnet build .\TestSolution.sln
+ dotnet build .\1.OverviewOfDotnetUtility.sln
 
 ```
 
@@ -83,7 +93,7 @@ dotnet run  --project [<PROJECT] [options]
 dotnet run  --project .\Console.Client\Console.Client.csproj
 ```
 
-> For debugging dotnet code in VS code  (Note:  it is not required if do it from Visual studio IDE),
+> For debugging dotnet app in VS code  (Note:  it is not required if do it from Visual studio IDE),
   
  - You need to add launch.json file tasks.json 
  
@@ -91,7 +101,7 @@ dotnet run  --project .\Console.Client\Console.Client.csproj
  
   1. Open your .NET Core solution file in Visual Studio Code.
   2. Open the Debug view by clicking on the Debug icon in the left-hand menu.
-  3. Click on the gear icon to open the launch.json file.
+  3. Create the launch.json file.
   4. In the launch.json file, add the following configuration:
 
 ```json
@@ -103,11 +113,32 @@ dotnet run  --project .\Console.Client\Console.Client.csproj
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/<path-to-your-project>/bin/Debug/net8.0/<your-project>.dll",
+            "program": "${workspaceFolder}/<path-to-your-console-project>/bin/Debug/net<version>/<your-console-project>.dll",
             "args": [],
             "cwd": "${workspaceFolder}/<path-to-your-project>",
             "console": "integratedTerminal",
             "stopAtEntry": false
+        },
+        ,
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/<path-to-your-web-project>/bin/Debug/net<version>/<your-web-project>.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
         }
     ]
 }
@@ -156,3 +187,11 @@ dotnet run  --project .\Console.Client\Console.Client.csproj
 5. Save the tasks.json file.
  
 You can now use the prebuild and build tasks to build your project and create the launch.json file.
+
+
+::TODO
+https://learn.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line
+1.Configuration (separation of code from overview project)
+2.Dependency Injection 
+4.Host Builder , WebHostBuilder
+3.File System
