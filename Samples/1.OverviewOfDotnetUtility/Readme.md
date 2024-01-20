@@ -48,25 +48,25 @@
        dotnet add .\DTO\DTO.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
        dotnet add .\Console.Client\Console.Client.csproj  reference .\DTO\DTO.csproj
        dotnet add .\Console.Client\Console.Client.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
-        dotnet add .\Console.Client\Console.Client.csproj  reference .\Extensions\Extensions.csproj
+       dotnet add .\Console.Client\Console.Client.csproj  reference .\Extensions\Extensions.csproj
 
        dotnet add .\Web.Client\Web.Client.csproj  reference .\DTO\DTO.csproj
        dotnet add .\Web.Client\Web.Client.csproj  reference .\DTO.Interfaces\DTO.Interfaces.csproj
-        dotnet add .\Web.Client\Web.Client.csproj  reference .\Extensions\Extensions.csproj
+       dotnet add .\Web.Client\Web.Client.csproj  reference .\Extensions\Extensions.csproj
 
 ```
  > 5. How to add package reference 
  
  ```sh
     # Syntax: 
-         dotnet add [<PROJECT>] package <PACKAGE_NAME>
+       dotnet add [<PROJECT>] package <PACKAGE_NAME>
      # Example   
-        dotnet add  .\Console.Client\Console.Client.csproj  package Microsoft.Extensions.Configuration      
+       dotnet add  .\Console.Client\Console.Client.csproj  package Microsoft.Extensions.Configuration      
         #  dotnet add package Microsoft.Extensions.Configuration # ( if you are in the project directory )
         cd  .\Console.Client
-        dotnet add  package Microsoft.Extensions.Configuration.Json  
-        dotnet add package Microsoft.Extensions.Configuration.Binder
-        dotnet add package Microsoft.Extensions.Configuration.UserSecrets
+       dotnet add  package Microsoft.Extensions.Configuration.Json  
+       dotnet add package Microsoft.Extensions.Configuration.Binder
+       dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 ```
 > 6. Build Project\Solution using dotnet cli
 
@@ -189,9 +189,4 @@ dotnet run  --project .\Console.Client\Console.Client.csproj
 You can now use the prebuild and build tasks to build your project and create the launch.json file.
 
 
-::TODO
-https://learn.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line
-1.Configuration (separation of code from overview project)
-2.Dependency Injection 
-4.Host Builder , WebHostBuilder
-3.File System
+

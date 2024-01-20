@@ -1,84 +1,61 @@
-> ### Overview of dotnet utility
+> ### Overview of User Secrets in .NET Core
 
-> 1. Create solution file
+In .NET Core, User Secrets is a secure way of storing private user information such as API keys, client secrets, and connection strings.
 
-```sh
- # Syntax:
-   # dotnet new sln -o <Path of the solution file>
+-  Essentially anything that you don’t want others to know about when using your code base.  
+-   The user secrets are not uploaded to any source control. This ensures your keys do in fact stay “secret” to your local machine. 
+
+- The User Secrets is not a feature of .NET Core itself, but rather a NuGet package that can be added to your project.
+- Once added, you can use the dotnet user-secrets command-line tool to manage your secrets.
+
+Here are the steps to use User Secrets in your .NET Core app:
+
+1. Install the Microsoft.Extensions.Configuration.UserSecrets NuGet package.
+2. Right-click on your project in Visual Studio and select “Manage User Secrets”.
+3. This will open the secrets.json file where you can add your secrets.
+4. In your code, you can access the secrets using the IConfiguration interface.
  
-  #Example
-   dotnet new sln 
-```
-> 2. How to create Console Project file
-```sh
-  # Syntax: 
-   # dotnet new console  -o <Path of the project file>
-  
-   # Example
-      dotnet new console -o Console.UserSecrets.Client
-      dotnet new classlib -o DTO
- ```  
-> 3. How to add project file to Solution file 
 
-```sh  
-  #Syntax: dotnet sln <path-to-solution-file> add <path-to-project-file> 
-   dotnet sln .\2.ManageUserSecrets.sln add .\Console.UserSecrets.Client\Console.UserSecrets.Client.csproj
-```
 
-> 4. How to add project reference
+ **Initialize user secrets**: To initialize user secrets for your project, run the following command in the project directory:
 
 ```sh 
-    # Syntax: 
-       #dotnet add <path-to-csproj-file> reference <path-to-referenced-project-csproj-file>
-     
-    # Example
-       dotnet add .\Console.UserSecrets.Client\Console.UserSecrets.Client.csproj  reference .\DTO\DTO.csproj
+dotnet user-secrets init
 ```
- > 5. How to add package reference 
+   This will create a secrets.json file in the user profile directory.
+
+**Add a secret**: To add a secret to the user secrets store, run the following command:
+
+```sh 
+dotnet user-secrets set "MySecret" "MyValue"
+```
+This will add a secret with the key MySecret and value MyValue to the user secrets store.
+
+***List all secrets***: To list all secrets in the user secrets store, run the following command:
+
+```sh 
+dotnet user-secrets list
+```
+
+**Remove a secret**: To remove a secret from the user secrets store, run the following command:
+
+```sh 
+dotnet user-secrets remove "MySecret"
+```
  
- ```sh
-    # Syntax: 
-         dotnet add [<PROJECT>] package <PACKAGE_NAME>
-     # Example   
-        dotnet add  .\Console.Client\Console.Client.csproj  package Microsoft.Extensions.Configuration      
-        #  dotnet add package Microsoft.Extensions.Configuration # ( if you are in the project directory )
-        cd  .\Console.Client
-        dotnet add  package Microsoft.Extensions.Configuration.Json  
-        dotnet add package Microsoft.Extensions.Configuration.Binder
-        ## install below package to add user Secrets to Configuration Builder
-        dotnet add package Microsoft.Extensions.Configuration.UserSecrets
-        ## install below package to Add Environment variables to Configuration Builder
-        dotnet add package  Microsoft.Extensions.Configuration.EnvironmentVariables
+ - **VS Code Extension**
+  we can easily manage user secrets using [.NET Core User Secrets](https://marketplace.visualstudio.com/items?itemName=adrianwilczynski.user-secrets) Extension.
+
+```cs
+var EnvironmentName = Environment.GetEnvironmentVariable("Environment", EnvironmentVariableTarget.User)??string.Empty;
+
+ var builder = new ConfigurationBuilder();
+if (IsDevelopment(EnvironmentName))
+{
+ builder.AddJsonFile($"appsettings.{EnvironmentName}.json", optional: true,reloadOnChange: true)
+          .AddUserSecrets(Assembly.GetExecutingAssembly());
+        //builder.AddUserSecrets<Program>();
+}
+
+Console.WriteLine(configuration.GetValue<string>("UserKey1"));
 ```
-> 6. Build Project\Solution using dotnet cli
-
-```sh
-# Syntax:
- dotnet build [<PROJECT | SOLUTION>...] [options]
-
-#Example: (build project)
- dotnet build  .\Console.Client\Console.Client.csproj
-
-#Example: (build solution) 
-
- dotnet build .\TestSolution.sln
-
-```
-
-> 7. Run Project using dotnet cli 
-
-```sh
-# Syntax:
-dotnet run  --project [<PROJECT] [options]
-
-#Example:
-dotnet run  --project .\Console.Client\Console.Client.csproj
-```
-
-> The order of precedence for configuration settings in ASP.NET Core is as follows:
-
-  - appsettings.json: This is the base configuration file and is loaded first.
-  - appsettings.{Environment}.json: This file is loaded next and is environment-specific.
-         For example, appsettings.Development.json for the Development environment.
-  - User Secrets: This is only loaded in the local development environment.
-  - Environment Variables: These are loaded next and can override values from the previous files.
