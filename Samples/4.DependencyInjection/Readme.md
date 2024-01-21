@@ -1,4 +1,4 @@
-> Overview of Dependency Injection (DI) in .NET Core 
+> #### Overview of Dependency Injection (DI) in .NET Core 
 
 **Dependency injection (DI)** is a programming technique that aims to decouple objects from their dependencies.  
 
@@ -42,29 +42,44 @@
 
 ```cs 
      var serviceProvider = new ServiceCollection()
+                 .AddSingleton<ITestHandler, TestHandler>()
                 .AddSingleton<IMyDependency, MyDependency>()
                 .BuildServiceProvider();
-
-            var myDependency = serviceProvider.GetService<IMyDependency>()
 ```
-Here are some use cases of Microsoft.Extensions.DependencyInjection:
 
-  1. **Web applications**: DI is commonly used in web applications to manage dependencies between controllers, services, and repositories. Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.
 
-  2. **Console applications**: DI can also be used in console applications to manage dependencies between objects. Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.
+**IServiceProvider**: The *IServiceProvider* is an interface in .NET that defines a mechanism for retrieving a service object.
 
-  3. **Unit testing**: DI can beused to inject mock objects into unit tests. Microsoft.Extensions.DependencyInjection can be used to register mock objects and configure the DI container in an *IServiceCollection*.
+  - It’s used to create instances of types registered in the .NET Core native Dependency Injection (DI) container.
 
-  4. **Windows services**: DI can be used in Windows services to manage dependencies between objects. Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.
+   - An instance of **IServiceProvider** itself can be obtained by calling the *BuildServiceProvider* method of an **IServiceCollection**.
 
+   - The IServiceProvider is responsible for resolving instances of types at runtime, as required by the application.
+ 
+  - These instances can be injected into other services resolved from the same dependency injection container.
+  
+  - The ServiceProvider ensures that resolved services live for the expected lifetime.
+
+
+**GetService&lt;T&gt;()**: This method returns null if it can’t find the service12. It’s typically used for optional dependencies.
+
+**GetRequiredService&lt;T&gt;()**: This method throws an InvalidOperationException if it can’t find the service. 
+
+It’s typically used where you require the service.
+
+```cs
+var Handler = serviceProvider.GetRequiredService<ITestHandler>();
+ var dependency = serviceProvider.GetService<IMyDependency>();
+ ```
 
 > Note:  The Service Locator pattern is not recommended in ASP.NET Core.  
 
    - Instead, you should use dependency injection (DI) to resolve dependencies.   
    - DI is a design pattern that allows you to manage the dependencies between objects in an application and to provide a way to create and manage object instances. 
    - If you need to access a service in a method, you can inject the IServiceProvider interface into the constructor of your class and use it to resolve the service
-    
-   ```cs
+
+
+ ```cs
    using Microsoft.Extensions.DependencyInjection;
    
    public class PersonRepository{
@@ -74,4 +89,18 @@ Here are some use cases of Microsoft.Extensions.DependencyInjection:
                 _connectionString = config.GetConnectionString("DefaultConnection");
         }
      }
-     ```
+ ```
+
+Here are some use cases of Microsoft.Extensions.DependencyInjection:
+
+  1. **Web applications**: DI is commonly used in web applications to manage dependencies between controllers, services, and repositories.
+   Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.
+
+  2. **Console applications**: DI can also be used in console applications to manage dependencies between objects.
+   Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.
+
+  3. **Unit testing**: DI can beused to inject mock objects into unit tests. 
+  Microsoft.Extensions.DependencyInjection can be used to register mock objects and configure the DI container in an *IServiceCollection*.
+
+  4. **Windows services**: DI can be used in Windows services to manage dependencies between objects.
+   Microsoft.Extensions.DependencyInjection can be used to register services and configure the DI container in an *IServiceCollection*.  

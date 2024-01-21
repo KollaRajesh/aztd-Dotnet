@@ -189,4 +189,3 @@ dotnet run  --project .\Console.Client\Console.Client.csproj
 You can now use the prebuild and build tasks to build your project and create the launch.json file.
 
 
-
