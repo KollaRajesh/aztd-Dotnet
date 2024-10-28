@@ -107,3 +107,5 @@ build/
 *.vcxproj.*.users
 *.vcxproj.*.vcxproj.*
 *.vcxproj.*.vcxproj.filters
+
+.fake
